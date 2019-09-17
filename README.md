@@ -1,6 +1,6 @@
-#MiniQuery
+# MiniQuery
 
-**MiniQuery** is a front-end library specifically designed to be a *lightweight, compact version of JQuery*. 
+### **MiniQuery** is a front-end library specifically designed to be a *lightweight, compact version of JQuery*. 
 
 **MiniQuery** comes with all the important _JQuery_ methods you know and love. This includes but is not limited to the following 
 ```
