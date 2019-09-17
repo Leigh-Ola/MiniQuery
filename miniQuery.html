@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Run javascript</title>
+	<style type="text/css">
+		body *{
+			box-sizing:border-box; padding:10px;
+		}
+		
+		.grandparent{
+			width:100%; height:430px;
+			background:#888; flex-flow:row wrap; display:flex; align-items:center; 
+		}
+		.grandparent .parent{
+			width:100%; height:38%; background:#aaa; display:inline-flex; flex-flow:row nowrap; justify-content:space-around;
+		}
+		.grandparent .parent:last-child{
+			height:18%;
+		}
+		.parent .child, .parent .baby{
+			background:#bbb; flex-grow:1; margin:10px; border:none;
+		}
+		.parent .baby { background:#ccc; }
+		.parent .childd { background:lightgreen; }
+		.parent #mee { background:lightblue; }
+	</style>
+</head>
+<body>
+
+	<div class="grandparent 1" >
+		<div class="parent 2 dad" >
+			<div class="child 3 bro" >3
+			</div>
+			<div class="child 4" id="me" >4
+			</div>
+			<div class="child 5 bro" >5
+			</div>
+			<div class="child 6 bro" >6</div>
+		</div>
+		
+		<div class="parent 7" >
+			<div class="child 8">8
+				<div class="baby x">
+				x</div>
+			</div>
+		</div>
+		
+		<div class="parent 9 inputBox" >
+			<input class="child 10 input" value="10" placeholder="type here" ></input>
+		</div>
+	</div>
+
+</body>
+<script type="text/javascript" src="miniQuery.js">
+</script>
+<script type="text/javascript" src="../../PlugIns/JQuery/jquery3.2.1.min.js"></script >
+
+<script type="text/javascript">
+
+// Miniquery can be accessed through the global function  :  z()
+//It works just like JQuery
+z(function(){
+
+	z(".parent:first-of-type .child").css("fontSize", "2em")//Increases the font size of each child of the first parent element
+
+	var grandpa = z(".grandparent")
+	z(grandpa)
+		.find(".input")
+		.parent()
+		.data("note","Thanks for testing MiniQuery")
+		.children()
+		.val(function(){
+			return (z(this).parent().data("note"));
+		})
+	.end()
+		.find(".baby")
+		.css({background : "lightgreen"})
+	.end()
+		.find(".dad > div")
+		.on("click", function(){
+			var count = (Number(z(this).data("count"))+1 || 1);
+			z(this).data("count", count);
+			z(".input").val(count);
+		})
+	.end();
+	/*
+		The above example
+		- Changes the value of the .input element
+		- Edits the css of the .baby element
+		- Increments a counter saved as data on a .dad > div element, whenever it is clicked
+	*/
+	
+	z.noConflict(function($){
+		$.extend({LEIGH : function(arg){
+			alert("this : "+this+", arg : "+arg);
+		}});
+		alert("The available methods in MiniQuery are : \n\n."+($.methods().join("()\n."))+"()")// Uses the built in methods() to retrieve all the methods you can use
+
+/*
+The available methods in MiniQuery are : 
+
+.val()
+.html()
+.text()
+.first()
+.last()
+.eq()
+.each()
+.hasClass()
+.toggleClass()
+.addClass()
+.removeClass()
+.find()
+.get()
+.filter()
+.attr()
+.parent()
+.parents()
+.children()
+.siblings()
+.css()
+.append()
+.prepend()
+.remove()
+.on()
+.one()
+.off()
+.data()
+.removeData()
+.end()
+*/
+	});
+
+/*	(function(num){
+		var libs = [$,z];
+		var times = [0,0]
+		for(var l in libs){
+			var lib_init = libs[l](".dad");
+			for(var i=1; i<=num; i++){
+				var t1 = (new Date()).getTime();
+				var x = lib_init.data("test", ["a","b"]);
+				var t2 = (new Date()).getTime();
+				times[l] += (t2 - t1);
+			}
+		}
+		alert("JQuery : "+times[0]+"\nMiniQuery : "+times[1]+"\n1 : "+(times[1]/times[0]).toPrecision(3))
+	})(5000); */
+
+})
+
+// The functions below are only used for testing
+function objKeys(obj){
+	return Object.keys(obj);
+}
+
+function objSplit(obj, txt){
+	var ans = [], txt = (txt === undefined)? "" : txt ;
+	for(var i in obj){
+		if(String(i).indexOf(txt) < 0){
+			continue;
+		}
+	
+		var toShow = ((obj[i] == null)? false : (typeof obj[i] == "string" || typeof obj[i] == "number" ||String(obj[i].constructor).indexOf("rray") > -1))
+		ans.push(i+" : "+((toShow)? (obj[i]) : (obj[i]))+"\n")
+	}
+	return ans;
+}
+</script>
+</html>	
